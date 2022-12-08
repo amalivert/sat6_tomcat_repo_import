@@ -38,13 +38,13 @@
       when: app_version == 9
   
     - name: Find latest version of {{app}} 8
-      ansible.builtin.command: |
+      ansible.builtin.shell: |
           curl .. https://archive.apache.org/dist/tomcat/tomcat-8/|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
       register: tomcat_list
       when: app_version == 8
   
     - name: Find latest version of {{app}} 9
-      ansible.builtin.command: |
+      ansible.builtin.shell: |
          curl .. https://archive.apache.org/dist/tomcat/tomcat-9/|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'    
       register: tomcat_list
       when: app_version == 9
@@ -62,16 +62,16 @@
       when: app_version == 9
 
     - name: Add the parent folder into allowed import paths
-      ansible.builtin.command: |
+      ansible.builtin.shell: |
         {foreman-installer} --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_repos
 
     - name: Run the pulp manifest command to create manifest
-      ansible.builtin.command: |
+      ansible.builtin.shell: |
         pulp-manifest /var/lib/pulp/local_repos/{{app}}/8
       when: app_version == 8
 
     - name: Run the pulp manifest command to create manifest
-      ansible.builtin.command: |
+      ansible.builtin.shell: |
         pulp-manifest /var/lib/pulp/local_repos/{{app}}/9
       when: app_version == 9
       
