@@ -28,6 +28,11 @@
       ansible.builtin.file:
         state: directory
         path: '/var/lib/pulp/local_repos/tomcat/9'
+
+    - name: Add the parent folder into allowed import paths
+      ansible.builtin.command: |
+          sudo foreman-installer --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_repos
+
   
     - name: Find latest version of tomcat 8
       ansible.builtin.shell: |
