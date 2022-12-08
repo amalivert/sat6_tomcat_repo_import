@@ -29,40 +29,37 @@
       ansible.builtin.file:
         state: directory
         path: '/var/lib/pulp/local_repos/{{app}}/8'
-      when: app_version == 8
 
     - name: Create directory to host file repsository
       ansible.builtin.file:
         state: directory
         path: '/var/lib/pulp/local_repos/{{app}}/9'
-      when: app_version == 9
   
     - name: Find latest version of {{app}} 8
       ansible.builtin.shell: |
           curl .. https://archive.apache.org/dist/tomcat/tomcat-8/|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
-      register: tomcat_list
-      when: app_version == 8
+      register: tomcat_list_8
   
     - name: Find latest version of {{app}} 9
       ansible.builtin.shell: |
          curl .. https://archive.apache.org/dist/tomcat/tomcat-9/|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'    
-      register: tomcat_list
-      when: app_version == 9
+      register: tomcat_list_9
 
     - ansible.builtin.debug:
-        var: tomcat_list
+        var: tomcat_list_8  
+    
+    - ansible.builtin.debug:
+        var: tomcat_list_9
 
     - name: Download latest version of tomcat
       ansible.builtin.get_url:
-        url: https://archive.apache.org/dist/tomcat/tomcat-8/{{tomcat_list|last}}
+        url: https://archive.apache.org/dist/tomcat/tomcat-8/{{tomcat_list_8|last}}
         dest: /var/lib/pulp/local_repos/{{app}}/8
-      when: app_version == 8
 
     - name: Download latest version of tomcat
       ansible.builtin.get_url:
-        url: https://archive.apache.org/dist/tomcat/tomcat-9/{{tomcat_list|last}}
+        url: https://archive.apache.org/dist/tomcat/tomcat-9/{{tomcat_list_9|last}}
         dest: /var/lib/pulp/local_repos/{{app}}/9
-      when: app_version == 9
 
     - name: Add the parent folder into allowed import paths
       ansible.builtin.shell: |
@@ -71,10 +68,7 @@
     - name: Run the pulp manifest command to create manifest
       ansible.builtin.shell: |
         pulp-manifest /var/lib/pulp/local_repos/{{app}}/8
-      when: app_version == 8
-
+  
     - name: Run the pulp manifest command to create manifest
       ansible.builtin.shell: |
         pulp-manifest /var/lib/pulp/local_repos/{{app}}/9
-      when: app_version == 9
-      
