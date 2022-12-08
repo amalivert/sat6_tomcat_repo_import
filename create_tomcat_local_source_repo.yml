@@ -22,7 +22,7 @@
     - name: Create directory to host file repsository
       ansible.builtin.file:
         state: directory
-        path: '/var/lib/pulp/local_repos/tomcat/9'
+        path: '/var/lib/pulp/local_repos/tomcat/{{ item }}'
         group: pulp
         owner: pulp
       with_item:
