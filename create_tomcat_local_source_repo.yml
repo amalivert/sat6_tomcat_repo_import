@@ -47,13 +47,17 @@
 
     - name: Set facts for latest Tomcat 8 version
       ansible.builtin.set_fact:
-        tomcat_8_latest_version: "{{ tomcat_list_8.stdout_lines | last | regex_replace('/^\/?|\/?$/g, ""') }}"
+        tomcat_8_latest_version: "{{ tomcat_list_8.stdout_lines | last | regex_replace('^', '' ) | regex_replace('*.$', '' )}}"
+    
+    - name: Set facts for latest Tomcat 9 version
+      ansible.builtin.set_fact:
+        tomcat_9_latest_version: "{{ tomcat_list_9.stdout_lines | last | regex_replace('^', '' ) | regex_replace('*.$', '' )}}"
 
     - ansible.builtin.debug:
         var: tomcat_8_latest_version
     
     - ansible.builtin.debug:
-        var: tomcat_list_9.stdout_lines
+        var: tomcat_9_latest_version
 
     - name: Download latest version of tomcat 8
       ansible.builtin.get_url:
