@@ -1,6 +1,6 @@
 ---
 - name: Create Tomcat file repository
-  hosts: {{sat_host}}
+  hosts: "{{sat_host}}"
   become: True
   gather_facts: False
 
