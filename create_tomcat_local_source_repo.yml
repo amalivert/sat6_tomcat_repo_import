@@ -66,12 +66,12 @@ tasks:
     ansible.builtin.command: |
         {foreman-installer} --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_repos
 
-  - name: Rune the pulp manifest command to create manifest
+  - name: Run the pulp manifest command to create manifest
     ansible.builtin.command: |
         pulp-manifest /var/lib/pulp/local_repos/{{app}}/8
     when: app_version == 8
 
-  - name: Rune the pulp manifest command to create manifest
+  - name: Run the pulp manifest command to create manifest
     ansible.builtin.command: |
         pulp-manifest /var/lib/pulp/local_repos/{{app}}/9
     when: app_version == 9
