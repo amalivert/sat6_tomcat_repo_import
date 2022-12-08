@@ -4,12 +4,6 @@
   become: True
   gather_facts: False
 
-  vars:
-
-    app_version: 8
-
-    app: 'tomcat'
-
   tasks:
 
     - name: Unlock Satellite maintain packages
@@ -28,19 +22,19 @@
     - name: Create directory to host file repsository
       ansible.builtin.file:
         state: directory
-        path: '/var/lib/pulp/local_repos/{{app}}/8'
+        path: '/var/lib/pulp/local_repos/tomcat/8'
 
     - name: Create directory to host file repsository
       ansible.builtin.file:
         state: directory
-        path: '/var/lib/pulp/local_repos/{{app}}/9'
+        path: '/var/lib/pulp/local_repos/tomcat/9'
   
-    - name: Find latest version of {{app}} 8
+    - name: Find latest version of tomcat 8
       ansible.builtin.shell: |
           curl .. https://archive.apache.org/dist/tomcat/tomcat-8/|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
       register: tomcat_list_8
   
-    - name: Find latest version of {{app}} 9
+    - name: Find latest version of tomcat 9
       ansible.builtin.shell: |
          curl .. https://archive.apache.org/dist/tomcat/tomcat-9/|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'    
       register: tomcat_list_9
@@ -59,15 +53,25 @@
     - ansible.builtin.debug:
         var: tomcat_9_latest_version
 
-    - name: Download latest version of tomcat 8
+    - name: Download latest version of tomcat 8 tar file
       ansible.builtin.get_url:
-        url: https://archive.apache.org/dist/tomcat/tomcat-8/{{tomcat_list_8.stdout_lines|last}}/bin/apache-tomcat-
-        dest: /var/lib/pulp/local_repos/{{app}}/8
+        url: https://archive.apache.org/dist/tomcat/tomcat-8/v{{tomcat_8_latest_version}}/bin/apache-tomcat-{{tomcat_8_latest_version}}.tar.gz
+        dest: /var/lib/pulp/local_repos/tomcat/8
 
-    - name: Download latest version of tomcat 9
+    - name: Download latest version of tomcat 9 tar file
       ansible.builtin.get_url:
-        url: https://archive.apache.org/dist/tomcat/tomcat-9/{{tomcat_list_9.stdout_lines|last}}/bin/apache-tomcat-
-        dest: /var/lib/pulp/local_repos/{{app}}/9
+        url: https://archive.apache.org/dist/tomcat/tomcat-9/v{{tomcat_9_latest_version}}/bin/apache-tomcat-{{tomcat_9_latest_version}}.tar.gz
+        dest: /var/lib/pulp/local_repos/tomcat/9
+
+    - name: Download latest version of tomcat 8  hash file
+      ansible.builtin.get_url:
+        url: https://archive.apache.org/dist/tomcat/tomcat-8/v{{tomcat_8_latest_version}}/bin/apache-tomcat-{{tomcat_8_latest_version}}.tar.gz.sha1
+        dest: /var/lib/pulp/local_repos/tomcat/8
+
+    - name: Download latest version of tomcat 9 hash file
+      ansible.builtin.get_url:
+        url: https://archive.apache.org/dist/tomcat/tomcat-9/v{{tomcat_9_latest_version}}/bin/apache-tomcat-{{tomcat_9_latest_version}}.tar.gz.sha1
+        dest: /var/lib/pulp/local_repos/tomcat/9
 
     - name: Add the parent folder into allowed import paths
       ansible.builtin.shell: |
@@ -75,8 +79,8 @@
 
     - name: Run the pulp manifest command to create manifest
       ansible.builtin.shell: |
-        pulp-manifest /var/lib/pulp/local_repos/{{app}}/8
+        pulp-manifest /var/lib/pulp/local_repos/tomcat/8
   
     - name: Run the pulp manifest command to create manifest
       ansible.builtin.shell: |
-        pulp-manifest /var/lib/pulp/local_repos/{{app}}/9
+        pulp-manifest /var/lib/pulp/local_repos/tomcat/9
