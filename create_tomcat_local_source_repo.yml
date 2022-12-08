@@ -45,20 +45,24 @@
          curl .. https://archive.apache.org/dist/tomcat/tomcat-9/|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'    
       register: tomcat_list_9
 
+    - name: Set facts for latest Tomcat 8 version
+      ansible.builtin.set_fact:
+        tomcat_8_latest_version: "{{ tomcat_list_8.stdout_lines | last | regex_replace('/^\/?|\/?$/g, ""') }}"
+
     - ansible.builtin.debug:
-        var: tomcat_list_8.stdout_lines
+        var: tomcat_8_latest_version
     
     - ansible.builtin.debug:
         var: tomcat_list_9.stdout_lines
 
-    - name: Download latest version of tomcat
+    - name: Download latest version of tomcat 8
       ansible.builtin.get_url:
-        url: https://archive.apache.org/dist/tomcat/tomcat-8/{{tomcat_list_8.stdout_lines|last}}
+        url: https://archive.apache.org/dist/tomcat/tomcat-8/{{tomcat_list_8.stdout_lines|last}}/bin/apache-tomcat-
         dest: /var/lib/pulp/local_repos/{{app}}/8
 
-    - name: Download latest version of tomcat
+    - name: Download latest version of tomcat 9
       ansible.builtin.get_url:
-        url: https://archive.apache.org/dist/tomcat/tomcat-9/{{tomcat_list_9.stdout_lines|last}}
+        url: https://archive.apache.org/dist/tomcat/tomcat-9/{{tomcat_list_9.stdout_lines|last}}/bin/apache-tomcat-
         dest: /var/lib/pulp/local_repos/{{app}}/9
 
     - name: Add the parent folder into allowed import paths
