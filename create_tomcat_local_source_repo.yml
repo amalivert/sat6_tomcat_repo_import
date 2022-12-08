@@ -73,10 +73,6 @@
         url: https://archive.apache.org/dist/tomcat/tomcat-9/v{{tomcat_9_latest_version}}/bin/apache-tomcat-{{tomcat_9_latest_version}}.tar.gz.sha1
         dest: /var/lib/pulp/local_repos/tomcat/9
 
-    - name: Add the parent folder into allowed import paths
-      ansible.builtin.shell: |
-        {foreman-installer} --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_repos
-
     - name: Run the pulp manifest command to create Tomcat 8 manifest
       ansible.builtin.shell: |
         pulp-manifest /var/lib/pulp/local_repos/tomcat/8
