@@ -22,12 +22,12 @@
     - name: Create directory to host file repsository
       ansible.builtin.file:
         state: directory
-        path: '/var/lib/pulp/local_repos/tomcat/8'
-
-    - name: Create directory to host file repsository
-      ansible.builtin.file:
-        state: directory
         path: '/var/lib/pulp/local_repos/tomcat/9'
+        group: pulp
+        owner: pulp
+      with_item:
+        - 8
+        - 9
 
     - name: Add the parent folder into allowed import paths
       ansible.builtin.command: |
