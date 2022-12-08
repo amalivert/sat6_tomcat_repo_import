@@ -52,13 +52,13 @@
       when: app_version == 9
 
     - name: Download latest version of tomcat
-      ansibe.builtin.get_url:
+      ansible.builtin.get_url:
         url: https://archive.apache.org/dist/tomcat/tomcat-8/{{tomcat_list|last}}
         destimation: '/var/lib/pulp/local_repos/{{app}}/8'
       when: app_version == 8
 
     - name: Download latest version of tomcat
-      ansibe.builtin.get_url:
+      ansible.builtin.get_url:
         url: https://archive.apache.org/dist/tomcat/tomcat-9/{{tomcat_list|last}}
         destination: '/var/lib/pulp/local_repos/{{app}}/9'
       when: app_version == 9
