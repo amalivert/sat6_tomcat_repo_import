@@ -49,9 +49,9 @@
       register: tomcat_list
       when: app_version == 9
 
-    - debug:
-      vars: tomcat_list
-      
+    - ansible.builtin.debug:
+        var: tomcat_list
+
     - name: Download latest version of tomcat
       ansible.builtin.get_url:
         url: https://archive.apache.org/dist/tomcat/tomcat-8/{{tomcat_list|last}}
