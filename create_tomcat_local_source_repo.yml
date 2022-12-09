@@ -25,7 +25,7 @@
         path: '/var/lib/pulp/local_repos/tomcat/{{ item }}'
         group: pulp
         owner: pulp
-      with_item:
+      with_items:
         - 8
         - 9
 
