@@ -46,7 +46,7 @@
 
     - name: Set facts for latest Tomcat 8 version
       ansible.builtin.set_fact:
-        tomcat_8_latest_version: "{{ tomcat_list_8.stdout_lines | regex_replace('^v', '' ) | regex_replace('/', '') | sort | last }}"
+        tomcat_8_latest_version: "{{ tomcat_list_8.stdout_lines | regex_replace('^v', '' ) | regex_replace('/', '') | sort }}"
     
     - name: Set facts for latest Tomcat 9 version
       ansible.builtin.set_fact:
