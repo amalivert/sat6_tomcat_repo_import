@@ -25,7 +25,7 @@
     - name: Check if local pulp directory exist for Tomcat 
       ansible.builtin.stat:
         path: "{{ item.app_path }}"
-      loop: "{{ tomcat_vars }}" 
+      loop: "{{ tomcat_vars | dict2items }}" 
       register: stat_tomcat_pulp_dir
 
     - ansible.builtin.debug:
