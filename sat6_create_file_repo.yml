@@ -40,6 +40,6 @@
         path: "{{ item.key }}/tomcat/{{ item.value.local_repos_path }}"
         group: pulp
         owner: pulp
-      loop: "{{ lookup('ansible.builtin.', tomcat_vars) }}"
+      loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}"
       when: not tomcat_pulp_dir.stat.exist
       
