@@ -22,23 +22,24 @@
       command: >
         satellite-maintain packages lock
 
-    - name: "Check if local pulp directory exist for Tomcat {{ item.key }}"
+    - name: Check if local pulp directory exist for Tomcat 
       ansible.builtin.stat:
         path: "{{ item.value.app_path }}"
       loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}" 
       register: tomcat_pulp_dir
 
-    - ansible.builtin.debug:
-        var: tomcat_pulp_dir
+    # - ansible.builtin.debug:
+    #     var: tomcat_pulp_dir
 
-    - ansible.builtin.fail:
-        msg: I failed it
+    # - ansible.builtin.fail:
+    #     msg: I failed it
     
-    - name: Create directory to host Tomcat {{ item.key }}
+    - name: Create directory to host Tomcat files
       ansible.builtin.file:
         state: directory
         path: "{{ item.key }}/tomcat/{{ item.value.local_repos_path }}"
         group: pulp
         owner: pulp
-      loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}"
+      loop: "{{ lookup('ansible.builtin.', tomcat_vars) }}"
+      when: not tomcat_pulp_dir.stat.exist
       
