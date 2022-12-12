@@ -24,16 +24,15 @@
 
     - name: Check if local pulp directory exist for Tomcat 
       ansible.builtin.stat:
-        path: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}" 
-      loop_control:
-        loop_var: tomcat_vars 
+        path: "{{ item.value.app_path }}"
+      loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}" 
       register: stat_tomcat_pulp_dir
 
-    - ansible.builtin.debug:
-        var: stat_tomcat_pulp_dir
+    # - ansible.builtin.debug:
+    #     var: tomcat_pulp_dir
 
-    - ansible.builtin.fail:
-        msg: I failed it
+    # - ansible.builtin.fail:
+    #     msg: I failed it
     
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
