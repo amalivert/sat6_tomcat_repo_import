@@ -40,6 +40,6 @@
         path: "{{ item.stat.path }}"
         group: pulp
         owner: pulp
-      loop: "{{ lookup('ansible.builtin.dict', stat_tomcat_pulp_dir) }}"
+      loop: "{{stat_tomcat_pulp_dir}}"
       when: not stat_tomcat_pulp_dir.stat.exist
       
