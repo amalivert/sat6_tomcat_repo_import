@@ -1,0 +1,44 @@
+---
+- name: Create Tomcat file repository
+  hosts: "{{sat_host}}"
+  become: True
+  gather_facts: False
+
+  vars_files:
+   - vars/aap_vars.yml
+
+  tasks:
+
+    - name: Unlock Satellite maintain packages
+      command: >
+        satellite-maintain packages unlock
+
+    - name: Install pulp manifest package
+      ansible.builtin.dnf:
+        name: python39-pulp_manifest
+        state: present
+
+    - name: Lock Satellite maintain packages
+      command: >
+        satellite-maintain packages lock
+
+    - name: Check if local pulp directory exist for Tomcat {{ item.key }}
+      ansible.builtin.stat:
+        path: "{{ item.value.app_path }}"
+      loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}" 
+      register: tomcat_pulp_dir
+
+    - ansible.builtin.debug:
+        var: tomcat_pulp_dir
+
+    - ansible.builtin.fail:
+        msg: I failed it
+    
+    - name: Create directory to host Tomcat {{ item.key }}
+      ansible.builtin.file:
+        state: directory
+        path: "{{ item.key }}/tomcat/{{ item.value.local_repos_path }}"
+        group: pulp
+        owner: pulp
+      loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}"
+      
