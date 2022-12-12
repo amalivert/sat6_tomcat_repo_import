@@ -22,7 +22,7 @@
       command: >
         satellite-maintain packages lock
 
-    - name: Check if local pulp directory exist for Tomcat {{ item.key }}
+    - name: "Check if local pulp directory exist for Tomcat {{ item.key }}"
       ansible.builtin.stat:
         path: "{{ item.value.app_path }}"
       loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}" 
