@@ -26,20 +26,21 @@
       ansible.builtin.stat:
         path: "{{ item.value.app_path }}"
       loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}" 
+      loop_control:
+        loop_var: tomcat_vars
       register: stat_tomcat_pulp_dir
 
-    # - ansible.builtin.debug:
-    #     var: tomcat_pulp_dir
+    - ansible.builtin.debug:
+        var: tomcat_pulp_dir
 
-    # - ansible.builtin.fail:
-    #     msg: I failed it
+    - ansible.builtin.fail:
+        msg: I failed it
     
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
-        state: "{{ 'directory' if item.stat.exists else 'touch' }}"
-        path: "{{ item.stat.path }}"
+        state: "{{ 'directory' if item.stat.exists else 'directory' }}"
+        path: "{{ item.path }}"
         group: pulp
         owner: pulp
-      loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}" 
-      when: not stat_tomcat_pulp_dir.stat.exist
+      loop: "{{ stat_tomcat_pulp_dir.results }}" 
       
