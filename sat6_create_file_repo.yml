@@ -5,7 +5,7 @@
   gather_facts: False
 
   vars_files:
-   - vars/aap_vars.yml
+   - vars/app_vars.yml
 
   tasks:
 
