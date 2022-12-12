@@ -27,7 +27,7 @@
         path: "{{ item.value.app_path }}"
       loop: "{{ lookup('ansible.builtin.dict', tomcat_vars) }}" 
       loop_control:
-        loop_var: tomcat_vars
+        loop_var: tomcat_var
       register: stat_tomcat_pulp_dir
 
     - ansible.builtin.debug:
