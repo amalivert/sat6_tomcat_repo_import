@@ -39,7 +39,7 @@
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
         state: "{{ 'directory' if item.stat.exists else 'directory' }}"
-        path: "{{ item.stat_result.app_path }}"
+        path: "{{ item.stat_result.value }}"
         group: pulp
         owner: pulp
       loop: "{{ stat_pulp_dir.results }}" 
