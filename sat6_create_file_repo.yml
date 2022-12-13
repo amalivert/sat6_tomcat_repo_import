@@ -75,23 +75,16 @@
 
     - name: Add the parent folder into allowed import paths
       ansible.builtin.command: |
-          sudo foreman-installer --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_repos
-  
-    # - name: Find latest versions of tomcat
-    #   ansible.builtin.shell: |
-    #       curl .. "{{ item.value.link | quote }}" | sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
-    #   loop: "{{ tomcat_vars | dict2items }}" 
-    #   register: tomcat_latest_list
-
-    # - name: Find latest versions of tomcat
-    #   ansible.builtin.uri:
-    #     method: GET
-    #     url: "{{ item.value.link }}/"
-    #     return_content: yes
-    #     body_format: raw
-    #   loop: "{{ tomcat_vars | dict2items }}" 
-    #   register: tomcat_files
+          sudo foreman-installer --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_reposS
 
     - name: Find latest versions of tomcat
       ansible.builtin.include_tasks: download_files.yml
       loop: "{{ tomcat_vars | dict2items }}"
+
+    - name: Run the pulp manifest command to create Tomcat 8 manifest
+      ansible.builtin.shell: |
+        pulp-manifest /var/lib/pulp/local_repos/tomcat/8
+  
+    - name: Run the pulp manifest command to create Tomcat 9 manifest
+      ansible.builtin.shell: |
+        pulp-manifest /var/lib/pulp/local_repos/tomcat/9
