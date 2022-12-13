@@ -48,7 +48,7 @@
         loop_var: file_collection
 
     - ansible.builtin.debug:
-        var: collected_files.results
+        var: collected_files.stdout
 
     # - ansible.builtin.fail:
     #     msg: I failed it
