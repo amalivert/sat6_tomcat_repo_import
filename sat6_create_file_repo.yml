@@ -33,7 +33,7 @@
     - ansible.builtin.debug:
         var: stat_pulp_dir.results.files
 
-    - ansible.builtin.fail:
+#    - ansible.builtin.fail:
     #     msg: I failed it
 
     - name: Collect all files that currently exist under local pulp directory
@@ -76,7 +76,6 @@
     - name: Add the parent folder into allowed import paths
       ansible.builtin.command: |
           sudo foreman-installer --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_repos
-
   
     - name: Find latest versions of tomcat
       ansible.builtin.shell: |
