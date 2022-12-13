@@ -31,9 +31,9 @@
       register: stat_pulp_dir
 
     - ansible.builtin.debug:
-        var: stat_pulp_dir.results
+        var: stat_pulp_dir.results.files
 
-    # - ansible.builtin.fail:
+    - ansible.builtin.fail:
     #     msg: I failed it
 
     - name: Collect all files that currently exist under local pulp directory
