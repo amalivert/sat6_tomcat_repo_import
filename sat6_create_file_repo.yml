@@ -37,8 +37,8 @@
     #     msg: I failed it
 
     - name: Collect all files that currently exist under local pulp directory
-      ansible.builtin.file:
-        path: "{{ item.stat_result.value.app_path }}"
+      ansible.builtin.find:
+        paths: "{{ item.stat_result.value.app_path }}"
         hidden: true
         recurse: true
         file_type: any
