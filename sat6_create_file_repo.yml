@@ -94,4 +94,4 @@
 
     - name: Find latest versions of tomcat
       ansible.builtin.include_tasks: download_files.yml
-      loop: "{{ app_vars }}"
+      loop: "{{ tomcat_vars | dict2items }}"
