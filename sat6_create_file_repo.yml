@@ -77,18 +77,18 @@
       ansible.builtin.command: |
           sudo foreman-installer --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_repos
   
-    - name: Find latest versions of tomcat
-      ansible.builtin.shell: |
-          curl .. "{{ item.value.link | quote }}" | sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
-      loop: "{{ tomcat_vars | dict2items }}" 
-      register: tomcat_latest_list
-
     # - name: Find latest versions of tomcat
-    #   ansible.builtin.uri:
-    #     url: "{{ item.value.link }}"
-    #     return_content: yes
+    #   ansible.builtin.shell: |
+    #       curl .. "{{ item.value.link | quote }}" | sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
     #   loop: "{{ tomcat_vars | dict2items }}" 
-    #   register: the_files
+    #   register: tomcat_latest_list
+
+    - name: Find latest versions of tomcat
+      ansible.builtin.uri:
+        url: "{{ item.value.link }}/"
+        return_content: true
+      loop: "{{ tomcat_vars | dict2items }}" 
+      register: the_files
 
     - ansible.builtin.debug:
-        var: the_files.results.content
+        var: the_files.content
