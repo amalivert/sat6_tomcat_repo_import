@@ -55,8 +55,8 @@
 
     - name: Remove all files that currently exist under local pulp directory
       ansible.builtin.file:
-        state: absent
-        path: "{{ item.files.path if item.files|length > 0 }}"
+        state: "{{ absent if item.files|length > 0 }}"
+        path: "{{ item.files.path }}"
       loop: "{{ collected_files.results }}" 
      
     - ansible.builtin.fail:
