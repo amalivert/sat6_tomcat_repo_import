@@ -1,0 +1,8 @@
+---
+- name: Find latest versions of tomcat
+  ansible.builtin.shell: |
+    curl .. {{ item.value.link }}/ | sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
+  register: tomcat_latest_list
+
+- debug:
+    var: tomcat_latest_list

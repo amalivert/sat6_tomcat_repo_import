@@ -83,14 +83,15 @@
     #   loop: "{{ tomcat_vars | dict2items }}" 
     #   register: tomcat_latest_list
 
-    - name: Find latest versions of tomcat
-      ansible.builtin.uri:
-        method: GET
-        url: "{{ item.value.link }}/"
-        return_content: yes
-        body_format: raw
-      loop: "{{ tomcat_vars | dict2items }}" 
-      register: tomcat_files
+    # - name: Find latest versions of tomcat
+    #   ansible.builtin.uri:
+    #     method: GET
+    #     url: "{{ item.value.link }}/"
+    #     return_content: yes
+    #     body_format: raw
+    #   loop: "{{ tomcat_vars | dict2items }}" 
+    #   register: tomcat_files
 
-    - ansible.builtin.debug:
-        var: tomcat_files.results.content
+    - name: Find latest versions of tomcat
+      ansible.builtin.include_tasks: download_files.yml
+      loop: "{{ app_vars }}"
