@@ -38,7 +38,7 @@
 
     - name: Collect all files that currently exist under local pulp directory
       ansible.builtin.find:
-        paths: "{{ item.stat_result.value.app_path if not item.stat.exists }}"
+        paths: "{{ item.stat_result.value.app_path if item.stat.exists }}"
         hidden: true
         recurse: true
         file_type: any
@@ -46,7 +46,7 @@
       loop: "{{ stat_pulp_dir.results }}" 
 
     - ansible.builtin.debug:
-        var: file_list.results
+        var: collected_files.results
 
     - ansible.builtin.fail:
         msg: I failed it
