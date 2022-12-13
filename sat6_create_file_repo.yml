@@ -93,4 +93,4 @@
       register: tomcat_files
 
     - ansible.builtin.debug:
-        var: tomcat_files.content
+        var: tomcat_files
