@@ -26,18 +26,20 @@
       ansible.builtin.stat:
         path: "{{ item.value.app_path }}"
       loop: "{{ tomcat_vars | dict2items }}" 
+      loop_control: 
+        loop_var: stat_result
       register: stat_tomcat_pulp_dir
 
     - ansible.builtin.debug:
         var: tomcat_pulp_dir
 
-    - ansible.builtin.fail:
-        msg: I failed it
+    # - ansible.builtin.fail:
+    #     msg: I failed it
     
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
         state: "{{ 'directory' if item.stat.exists else 'directory' }}"
-        path: "{{ item.path }}"
+        path: "{{ item.stat_result }}"
         group: pulp
         owner: pulp
       loop: "{{ stat_tomcat_pulp_dir.results }}" 
