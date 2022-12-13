@@ -79,7 +79,7 @@
   
     - name: Find latest versions of tomcat
       ansible.builtin.shell: |
-          "curl .. {{ item.value.link }}|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'"
+          curl .. "{{ item.value.link }}" | sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
       loop: "{{ tomcat_vars | dict2items }}" 
       register: tomcat_latest_list
 
