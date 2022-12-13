@@ -43,7 +43,7 @@
         recurse: true
         file_type: any
       register: collected_files
-      loop: "{{ stat_pulp_dir.results | dict2items }}"
+      loop: "{{ stat_pulp_dir.results }}"
       loop_control:
         loop_var: file_collection
 
@@ -57,7 +57,7 @@
       ansible.builtin.file:
         state: absent
         path: "{{ item.file_collection.path if item.files|length > 0 }}"
-      loop: "{{ collected_files.results | dict2items }}" 
+      loop: "{{ collected_files.results }}" 
      
     - ansible.builtin.fail:
         msg: I failed it
