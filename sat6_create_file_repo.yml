@@ -79,11 +79,9 @@
   
     - name: Find latest versions of tomcat
       ansible.builtin.shell: |
-          curl .. "{{ latest_version.value.link }}"|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
-      loop: "{{ tomcat_vars | dict2items }}"
-      loop_control:
-        loop_var: latest_version   
+          curl .. "{{ item.value.link }}"|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
+      loop: "{{ tomcat_vars | dict2items }}" 
       register: tomcat_latest_list
 
     - ansible.builtin.debug:
-        var: latest_version.results
+        var: tomcat_latest_list.results
