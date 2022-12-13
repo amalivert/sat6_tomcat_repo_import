@@ -38,10 +38,11 @@
 
     - name: Collect all files that currently exist under local pulp directory
       ansible.builtin.file:
-        paths: "{{ item.stat_result.value.app_path }}"
+        path: "{{ item.stat_result.value.app_path }}"
         hidden: true
         recurse: true
         file_type: any
+        state: directory
       register: collected_files
       loop: "{{ stat_pulp_dir.results }}"
       when: item.stat.exists
@@ -50,9 +51,9 @@
       ansible.builtin.file:
         state: absent
         path: "{{ item.path }}"
-      loop: "{{ collected_files }}" 
+      with_items: "{{ collected_files }}" 
       when: item.stat.exists
-      
+
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
         state: "{{ 'directory' if item.stat.exists else 'directory' }}"
