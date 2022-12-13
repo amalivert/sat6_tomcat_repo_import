@@ -88,9 +88,9 @@
         method: GET
         url: "{{ item.value.link }}/"
         return_content: yes
-        body_format: json
+        body_format: raw
       loop: "{{ tomcat_vars | dict2items }}" 
       register: tomcat_files
 
     - ansible.builtin.debug:
-        var: tomcat_files
+        var: tomcat_files.content
