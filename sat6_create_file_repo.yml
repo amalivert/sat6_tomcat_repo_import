@@ -87,6 +87,7 @@
       ansible.builtin.uri:
         url: "{{ item.value.link }}"
         return_content: yes
+      loop: "{{ tomcat_vars | dict2items }}" 
       register: the_files
 
     - ansible.builtin.debug:
