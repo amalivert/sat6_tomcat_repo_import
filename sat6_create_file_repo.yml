@@ -85,10 +85,12 @@
 
     - name: Find latest versions of tomcat
       ansible.builtin.uri:
+        method: GET
         url: "{{ item.value.link }}/"
-        return_content: true
+        return_content: yes
+        body_format: json
       loop: "{{ tomcat_vars | dict2items }}" 
-      register: the_files
+      register: tomcat_files
 
     - ansible.builtin.debug:
-        var: the_files.content
+        var: tomcat_files
