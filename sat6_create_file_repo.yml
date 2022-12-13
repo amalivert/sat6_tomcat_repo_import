@@ -56,7 +56,7 @@
         state: absent
         path: "{{ item.path }}"
       with_items: "{{ collected_files }}" 
-      when: item.stat.exists
+      when: (stat_pulp_dir| length > 0)
     
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
@@ -65,7 +65,7 @@
         group: pulp
         owner: pulp
       loop: "{{ stat_pulp_dir.results }}" 
-    
+
     - name: Add the parent folder into allowed import paths
       ansible.builtin.command: |
           sudo foreman-installer --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_repos
