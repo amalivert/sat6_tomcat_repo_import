@@ -91,4 +91,4 @@
       register: the_files
 
     - ansible.builtin.debug:
-        var: the_files.content
+        var: the_files
