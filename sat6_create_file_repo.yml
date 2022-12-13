@@ -31,10 +31,10 @@
       register: stat_tomcat_pulp_dir
 
     - ansible.builtin.debug:
-        var: tomcat_pulp_dir
+        var: stat_tomcat_pulp_dir
 
-    # - ansible.builtin.fail:
-    #     msg: I failed it
+    - ansible.builtin.fail:
+        msg: I failed it
     
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
