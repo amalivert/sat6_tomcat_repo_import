@@ -31,7 +31,7 @@
       register: stat_pulp_dir
 
     - ansible.builtin.debug:
-        var: stat_pulp_dir
+        var: stat_pulp_dir.results
 
     # - ansible.builtin.fail:
     #     msg: I failed it
@@ -39,7 +39,7 @@
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
         state: "{{ 'directory' if item.stat.exists else 'directory' }}"
-        path: "{{ item.stat_result.value }}"
+        path: "{{ item.stat_result.value.app_path }}"
         group: pulp
         owner: pulp
       loop: "{{ stat_pulp_dir.results }}" 
