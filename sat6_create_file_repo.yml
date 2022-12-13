@@ -54,9 +54,9 @@
     - name: Remove all files that currently exist under local pulp directory
       ansible.builtin.file:
         state: absent
-        path: "{{ item.path }}"
-      with_items: "{{ collected_files }}" 
-      when: (stat_pulp_dir| length > 0)
+        path: "{{ item.stat.path }}"
+      with_items: "{{ collected_files.results }}" 
+      when: (collected_files.results.files| length > 0)
     
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
