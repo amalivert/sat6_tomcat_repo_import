@@ -46,7 +46,7 @@
       loop: "{{ stat_pulp_dir.results }}"
       loop_control:
         loop_var: file_list
-      when: item.stat.exists
+      when: file_list.stat.exists
 
     - ansible.builtin.debug:
         var: file_list.results
@@ -60,9 +60,7 @@
         path: "{{ item.path }}"
       with_items: "{{ collected_files }}" 
       when: item.stat.exists
-
     
-
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
         state: "{{ 'directory' if item.stat.exists else 'directory' }}"
