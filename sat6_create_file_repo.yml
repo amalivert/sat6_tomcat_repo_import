@@ -50,8 +50,8 @@
     - ansible.builtin.debug:
         var: collected_files.results
 
-    # - ansible.builtin.fail:
-    #     msg: I failed it
+    - ansible.builtin.fail:
+         msg: I failed it
 
     - name: Remove all files that currently exist under local pulp directory
       ansible.builtin.file:
