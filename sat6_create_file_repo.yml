@@ -48,7 +48,7 @@
         loop_var: file_collection
 
     - ansible.builtin.debug:
-        var: collected_files.stdout
+        var: collected_files.
 
     # - ansible.builtin.fail:
     #     msg: I failed it
@@ -58,10 +58,9 @@
         state: absent
         path: "{{ item.stat_result.value.app_path }}"
       loop: "{{ stat_pulp_dir.results }}"
-      when: collected_files.results.files| length > 0
      
-    - ansible.builtin.fail:
-        msg: I failed it
+    # - ansible.builtin.fail:
+    #     msg: I failed it
 
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
