@@ -48,8 +48,8 @@
     - ansible.builtin.debug:
         var: collected_files.results
 
-    - ansible.builtin.fail:
-        msg: I failed it
+    # - ansible.builtin.fail:
+    #     msg: I failed it
 
     - name: Remove all files that currently exist under local pulp directory
       ansible.builtin.file:
@@ -71,7 +71,7 @@
           sudo foreman-installer --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_repos
 
   
-    - name: Find latest version of tomcat
+    - name: Find latest versions of tomcat
       ansible.builtin.shell: |
           curl .. {{item.value.link}}|sed -n 's/.*href="\([^"]*\).*/\1/p'| grep '^v'
       loop: "{{ tomcat_vars | dict2items }}"
@@ -80,4 +80,4 @@
       register: tomcat_latest_list
 
     - ansible.builtin.debug:
-        var: stat_pulp_dir.results
+        var: latest_version.results
