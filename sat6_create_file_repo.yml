@@ -44,21 +44,18 @@
         file_type: any
       register: collected_files
       loop: "{{ stat_pulp_dir.results }}"
-      # loop_control: 
-      #   loop_var: find_result 
 
     - ansible.builtin.debug:
         var: collected_files.results
 
-    - ansible.builtin.fail:
-         msg: I failed it
+    # - ansible.builtin.fail:
+    #      msg: I failed it
 
     - name: Remove all files that currently exist under local pulp directory
       ansible.builtin.file:
         state: absent
-        path: "{{ item.stat_result.app_path if  item.stat.exists }}"
-      with_items: "{{ collected_files.results }}" 
-      when: (collected_files.results.files| length > 0)
+        path: "{{ item.stat_result.app_path if item.stat.exists }}"
+      loop: "{{ collected_files.results }}" 
     
     - name: Create directory to host Tomcat files
       ansible.builtin.file:
@@ -67,6 +64,9 @@
         group: pulp
         owner: pulp
       loop: "{{ stat_pulp_dir.results }}" 
+
+    - ansible.builtin.fail:
+         msg: I failed it
 
     - name: Add the parent folder into allowed import paths
       ansible.builtin.command: |
