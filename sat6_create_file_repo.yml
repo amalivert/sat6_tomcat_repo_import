@@ -78,7 +78,7 @@
           sudo foreman-installer --foreman-proxy-content-pulpcore-additional-import-paths /var/lib/pulp/local_reposS
 
     - name: Find latest versions of tomcat
-      ansible.builtin.include_tasks: download_files.yml
+      ansible.builtin.include_tasks: tasks/download_files.yml
       loop: "{{ tomcat_vars | dict2items }}"
 
     - name: Run the pulp manifest command to create Tomcat 8 manifest
