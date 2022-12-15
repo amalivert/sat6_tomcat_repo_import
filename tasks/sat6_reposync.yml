@@ -1,0 +1,8 @@
+---
+- name: "Sync repository"
+  redhat.satellite.repository_sync:
+    username: "{{ sat_user }}"
+    password: "{{ sat_password }}"
+    server_url: "{{ sat_url }}"
+    product: "{{ sat_product }}"
+    organization: "{{ sat_organization }}"

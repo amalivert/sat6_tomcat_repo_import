@@ -10,3 +10,9 @@ tomcat_vars:
       link: "https://archive.apache.org/dist/tomcat/tomcat-9"
       app_path: "{{pulp_dir_path}}/tomcat/9"
 
+
+sat_user: "admin"
+sat_password: "{{ sat_password }}"
+sat_url: "https://sat6.local.lan"
+sat_product: "Tomcat"
+sat_organization: "home_lab"
